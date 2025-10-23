@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Nueva Atención - Monfer Dental</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Fondo gris claro */
+        }
+        .container {
+            max-width: 800px; /* Un poco más ancho para el formulario */
+        }
+        legend {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5 mb-5">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white">
+                <h2 class="h5 mb-0">Formulario de Nueva Atención</h2>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() if csrf_token else '' }}">
+
+                    <fieldset class="mb-4">
+                        <legend>Datos del Paciente</legend>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="paciente_nombre" class="form-label">Nombre Paciente:</label>
+                                <input type="text" class="form-control" id="paciente_nombre" name="paciente_nombre" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="paciente_rut" class="form-label">RUT Paciente:</label>
+                                <input type="text" class="form-control" id="paciente_rut" name="paciente_rut" required placeholder="Ej: 11.111.111-1">
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="mb-4">
+                        <legend>Datos de la Atención</legend>
+                        <div class="row g-3">
+                             <div class="col-md-6">
+                                <label for="fecha_atencion" class="form-label">Fecha:</label>
+                                <input type="date" class="form-control" id="fecha_atencion" name="fecha_atencion" required>
+                            </div>
+                           </div>
+                    </fieldset>
+
+                    <fieldset class="mb-4">
+                        <legend>Datos del Tratamiento</legend>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="tratamiento_nombre" class="form-label">Nombre Tratamiento:</label>
+                                <input type="text" class="form-control" id="tratamiento_nombre" name="tratamiento_nombre" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="tratamiento_costo" class="form-label">Costo Tratamiento:</label>
+                                <input type="number" class="form-control" id="tratamiento_costo" name="tratamiento_costo" required min="0" step="100"> </div>
+                            </div>
+                    </fieldset>
+
+                    <fieldset class="mb-4">
+                        <legend>Laboratorio</legend>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="hubo_laboratorio" name="hubo_laboratorio" onclick="toggleLaboratorio()">
+                            <label class="form-check-label" for="hubo_laboratorio">
+                                ¿Se realizó trabajo de laboratorio?
+                            </label>
+                        </div>
+                        <div id="campos_laboratorio" style="display: none;"> <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="lab_nombre" class="form-label">Nombre Examen:</label>
+                                    <input type="text" class="form-control" id="lab_nombre" name="lab_nombre">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="lab_costo" class="form-label">Costo Examen:</label>
+                                    <input type="number" class="form-control" id="lab_costo" name="lab_costo" min="0" step="100">
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <hr class="my-4">
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('panel_principal') }}" class="btn btn-secondary me-md-2">Volver al Panel</a>
+                        <button type="submit" class="btn btn-primary">Guardar Atención</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleLaboratorio() {
+            var checkbox = document.getElementById('hubo_laboratorio');
+            var camposDiv = document.getElementById('campos_laboratorio');
+            if (checkbox.checked) {
+                camposDiv.style.display = 'block'; // Muestra los campos de laboratorio
+            } else {
+                camposDiv.style.display = 'none'; // Oculta los campos de laboratorio
+            }
+        }
+        // Llama a la función al cargar la página por si el checkbox ya está marcado (al volver atrás)
+        document.addEventListener('DOMContentLoaded', toggleLaboratorio);
+    </script>
+</body>
+</html>
